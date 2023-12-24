@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RSA Signature</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <label for="message">Message:</label>
+        <input type="text" id="message" placeholder="Enter message">
+    </div>
+    <div class="container">
+        <button id="signButton">Generate Signature</button>
+        <button id="verifyButton">Verify Signature</button>
+    </div>
+    <div class="container">
+        <p><strong>Signature:</strong> <span id="signatureOutput"></span></p>
+        <p><strong>Is the signature valid?</strong> <span id="validityOutput"></span></p>
+    </div>
+
+    <script src="asymetric_encryption.js"></script>
+    <script>
+        document.getElementById('signButton').addEventListener('click', function () {
+            const message = document.getElementById('message').value;
+            const signature = instance.sign(privateKey, message);
+            document.getElementById('signatureOutput').textContent = signature.toString();
+        });
+
+        document.getElementById('verifyButton').addEventListener('click', function () {
+            const message = document.getElementById('message').value;
+            const signatureText = document.getElementById('signatureOutput').textContent;
+            const signature = BigInt(signatureText);
+            const isValid = instance.verify(publicKey, message, signature);
+            document.getElementById('validityOutput').textContent = isValid ? 'True' : 'False';
+        });
+
+    </script>
+</body>
+
+</html>
